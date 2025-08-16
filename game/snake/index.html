@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>贪吃蛇 - xcommandx</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  <style>
+    body { margin:0; display:flex; flex-direction:column; align-items:center;
+           background:#111; color:#eee; font-family:Arial,Helvetica,sans-serif; }
+    h1 { margin:20px 0 10px; font-size:1.4rem; }
+    #score { margin-bottom:10px; font-size:1.2em; }
+    #game { background:#000; border:2px solid #0066ff; touch-action:none; }
+    #dead { display:none; margin-top:20px; color:red; font-size:1.3em; text-align:center; }
+    #restartBtn { padding:10px 20px; font-size:1rem; }
+    #dpad { margin-top:15px; display:grid; grid-template-columns:repeat(3,60px);
+            gap:5px; justify-content:center; }
+    #dpad button { width:60px; height:45px; font-size:20px; }
+    .back { margin-top:15px; color:#0066ff; text-decoration:none; font-size:1rem; }
+  </style>
+</head>
+<body>
+  <h1>贪吃蛇</h1>
+  <div id="score">分数：0</div>
+  <canvas id="game" width="320" height="320"></canvas>
+
+  <!-- 手机方向按钮 -->
+  <div id="dpad">
+    <div></div>
+    <button onclick="go(0,-1)">↑</button>
+    <div></div>
+    <button onclick="go(-1,0)">←</button>
+    <div></div>
+    <button onclick="go(1,0)">→</button>
+    <div></div>
+    <button onclick="go(0,1)">↓</button>
+  </div>
+
+  <!-- 死亡提示 -->
+  <div id="dead">
+    Game Over！<br>
+    最终得分：<span id="finalScore">0</span><br>
+    <button id="restartBtn" onclick="newGame()">再来一局</button>
+  </div>
+
+  <a class="back" href="../">← 返回游戏大厅</a>
+
+<script>
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+const SIZE = 20, COLS = 16, ROWS = 16;
+let dir = {x:1, y:0}, food, score = 0, timer = null, snake;
+
+/* 工具函数 */
+const randPos = () => ({x:Math.floor(Math.random()*COLS),
+                        y:Math.floor(Math.random()*ROWS)});
+
+function newGame() {
+  score = 0;
+  dir = {x:1, y:0};
+  snake = [{x:5,y:5},{x:4,y:5},{x:3,y:5}];
+  randFood();
+  document.getElementById('dead').style.display = 'none';
+  document.getElementById('score').textContent = '分数：0';
+  clearInterval(timer);
+  timer = setInterval(tick, 150);
+}
+function randFood() {
+  do { food = randPos(); }
+  while (snake.some(p => p.x === food.x && p.y === food.y));
+}
+function drawRect(x,y,color='lime') {
+  ctx.fillStyle = color;
+  ctx.fillRect(x*SIZE, y*SIZE, SIZE-1, SIZE-1);
+}
+function tick() {
+  let head = {x: snake[0].x + dir.x, y: snake[0].y + dir.y};
+
+  /* === 穿墙瞬移 === */
+  head.x = (head.x + COLS) % COLS;   // x 方向循环
+  head.y = (head.y + ROWS) % ROWS;   // y 方向循环
+  /* ================ */
+
+  // 只检测撞到自己
+  if (snake.some(p => p.x === head.x && p.y === head.y)) {
+    clearInterval(timer);
+    document.getElementById('finalScore').textContent = score;
+    document.getElementById('dead').style.display = 'block';
+    return;
+  }
+
+  snake.unshift(head);
+  if (head.x === food.x && head.y === food.y) {
+    score++;
+    randFood();
+  } else {
+    snake.pop();
+  }
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  snake.forEach(p => drawRect(p.x, p.y, 'lime'));
+  drawRect(food.x, food.y, 'red');
+  document.getElementById('score').textContent = '分数：' + score;
+}
+
+function go(x,y){
+  if (dir.x + x !== 0 || dir.y + y !== 0) dir = {x,y};
+}
+newGame();
+</script>
+</body>
+</html>
