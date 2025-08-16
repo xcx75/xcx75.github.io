@@ -2,21 +2,24 @@
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
-  <title>我的作品集</title>
+  <title>xcommandx 的作品集</title>
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
+    /* 基础样式 */
+    html { scroll-behavior: smooth; }          /* 关键：平滑滚动 */
     body { margin:0; font-family:Arial,Helvetica,sans-serif; background:#f5f5f5; color:#333; }
     header { background:#0066ff; color:#fff; padding:60px 20px; text-align:center; }
-    nav { background:#fff; box-shadow:0 2px 4px rgba(0,0,0,.1); padding:10px 20px; }
-    nav a { margin:0 15px; text-decoration:none; color:#0066ff; font-weight:bold; }
-    section { max-width:800px; margin:40px auto; padding:0 20px; }
+    nav { background:#fff; box-shadow:0 2px 4px rgba(0,0,0,.1); padding:10px 20px; position:sticky; top:0; z-index:1000; }
+    nav a { margin:0 15px; text-decoration:none; color:#0066ff; font-weight:bold; transition:color .3s; }
+    nav a:hover { color:#003c99; }
+    section { max-width:800px; margin:40px auto; padding:0 20px; scroll-margin-top:70px; } /* 预留顶部空间 */
     .card { background:#fff; border-radius:8px; padding:20px; margin-bottom:20px; box-shadow:0 2px 6px rgba(0,0,0,.08); }
   </style>
 </head>
 <body>
   <header>
-    <h1>你好，我是小明</h1>
-    <p>前端开发 | UI 设计 | 开源爱好者</p>
+    <h1>你好，我是 xcommandx</h1>
+    <p>Python | mc | 你觉得你能干啥</p>
   </header>
 
   <nav>
@@ -36,7 +39,7 @@
     <div class="card">
       <h2>项目 A</h2>
       <p>8c3d2fad254110df76b94599773882f1</p>
-      <p>kG7Lm2Qp</p>
+      <b><p>kG7Lm2Qp</p></b>
     </div>
     <div class="card">
       <h2>项目 B</h2>
@@ -48,7 +51,7 @@
   <section id="contact">
     <div class="card">
       <h2>联系我</h2>
-      <p>邮箱：     qiuzichenkeke@qq.com</p>
+      <p>邮箱：qiuzichenkeke@qq.com</p>
       <p>bilibili: 爱玩命运方块的命令</p>
     </div>
   </section>
