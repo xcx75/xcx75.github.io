@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <title>俄罗斯方块 - xcommandx</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1,user-scalable=no">
+  <style>
+    html,body { margin:0; height:100%; background:#111; font-family:Arial,Helvetica,sans-serif; color:#eee; }
+    h1 { margin:0; padding-top:10vh; text-align:center; font-size:2rem; }
+    #console {
+      width:320px; margin:20px auto;
+      font-family: 'Courier New', Courier, monospace;
+      font-size:14px; line-height:1.4;
+      white-space:pre-wrap; word-break:break-all;
+      color:#00ff00;
+    }
+    .blink {
+      animation: blink 1s infinite;
+    }
+    @keyframes blink {
+      0%,100% { opacity:1; }
+      50% { opacity:0; }
+    }
+    .back { display:block; text-align:center; margin-top:30px; color:#0066ff; }
+  </style>
+</head>
+<body>
+  <h1>俄罗斯方块 <span class="blink">_</span></h1>
+
+  <!-- 彩蛋“终端” -->
+  <div id="console">> npm run build-tetris<br>
+> building...<br>
+<span id="progress"></span></div>
+
+  <a class="back" href="../">← 返回游戏大厅</a>
+
+<script>
+const lines = [
+  "█████████████████████████ 5%",
+  "████████████░░░░░░░░░░░ 25%",
+  "████████████████░░░░░░░ 50%",
+  "██████████████████████  85%",
+  "ERROR: missing piece I4.js",
+  "Retrying... ███████████ 99%",
+  "█████████████ CRASH ███ 100%",
+  "提示：施工人员正在疯狂敲击键盘，请稍后再来！"
+];
+let i = 0;
+const progress = document.getElementById('progress');
+const timer = setInterval(()=>{
+  progress.textContent += lines[i] + '\n';
+  i++;
+  if (i >= lines.length) clearInterval(timer);
+}, 600);
+</script>
+</body>
+</html>
